@@ -1,0 +1,78 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.build/
+.buildlog/
+.history
+.svn/
+.swiftpm/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configuration and tasks you configure in
+# VS Code which you may wish to be included in version control, so this line
+# is commented out by default.
+#.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+/coverage/
+
+# Symbolication related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will place build artifacts here
+/android/app/debug
+/android/app/profile
+/android/app/release
+
+# Archivos locales y privados
+.env
+.env.*
+!.env.example
+**/local.properties
+**/key.properties
+**/*.jks
+**/*.keystore
+**/*.p12
+**/*.pem
+**/google-services.json
+**/service-account*.json
+**/credentials*.json
+
+# Cachés adicionales
+**/.gradle/
+.vscode/
+
+# Archivos sueltos no utilizados por la aplicación
+/4965661344929615257.jpg
+/4965661344929615258.jpg
+/639016880_1501062368692957_n.jpg
+/blue-white-polygonal-mosaic-background.zip
+/depositphotos_66892327-stock-illustration-blue-white-polygonal-mosaic-background.jpg
+/images.png
+/logoCreator_imagetologo (1).png
+/logoCreator_imagetologo.png
+/super900-hpdf.png
+
+# Archivos innecesarios adicionales
+/639016880_1501062368692956_1909915403177219577_n.jpg
+/logo_super900.png
