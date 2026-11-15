@@ -76,3 +76,10 @@ app.*.map.json
 # Archivos innecesarios adicionales
 /639016880_1501062368692956_1909915403177219577_n.jpg
 /logo_super900.png
+
+# Plataformas no utilizadas en esta versión
+/ios/
+/linux/
+/macos/
+/web/
+/windows/
