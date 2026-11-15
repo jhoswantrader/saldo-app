@@ -374,6 +374,10 @@ Future<void> _iniciarSesionDesdeLogin(
   _loginEsperandoResultado = false;
   _credencialesGuardadas = false;
   _nuevoInicioSesion = true;
+  _tarjetaVirtualCargada = false;
+  _perfilCargado = false;
+  codigoBarras = null;
+  cedula = 'Cargando...';
 
   if (mounted) {
     setState(() {
