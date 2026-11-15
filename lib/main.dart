@@ -146,11 +146,12 @@ bool _credencialesCargadas = false;
   // ==========================================================
 
   bool tarjetaVolteada = false;
-  String cedula = 'V-30568608';
+  String cedula = 'Cargando...';
 
   Uint8List? codigoBarras;
   bool _cargandoTarjetaVirtual = false;
   bool _tarjetaVirtualCargada = false;
+  bool _perfilCargado = false;
 
   // ==========================================================
   // INICIALIZAR
@@ -498,6 +499,24 @@ Future<void> _cargarCodigoBarras() async {
   // PROCESAR LA PÁGINA ACTUAL
   // ==========================================================
 
+Future<void> _cargarPerfil() async {
+  debugPrint('PERFIL: CARGANDO DATOS DEL USUARIO');
+
+  try {
+    await controller?.loadRequest(
+      Uri.parse('https://super900.com/panel/perfil'),
+    );
+  } catch (e) {
+    debugPrint('PERFIL: ERROR CARGANDO PERFIL: $e');
+    _perfilCargado = true;
+    if (mounted) {
+      setState(() {
+        cedula = 'No disponible';
+      });
+    }
+  }
+}
+
 Future<List<Recarga>> _cargarRecargas() async {
   debugPrint('=====================================');
   debugPrint('RECARGAS: CARGANDO SUPER900');
@@ -590,6 +609,29 @@ Future<void> _procesarPagina() async {
 
         const tarjeta =
             window.location.pathname.includes('/panel/tarjeta_virtual');
+
+        const perfil =
+            window.location.pathname.includes('/panel/perfil');
+
+        // PERFIL: EXTRAER IDENTIFICACIÓN DE LA CUENTA ACTIVA
+        if (perfil) {
+          const bloques = Array.from(
+            document.querySelectorAll('.dat-client')
+          );
+
+          const bloqueIdentificacion = bloques.find((bloque) => {
+            const titulo = bloque.querySelector('h4')?.innerText || '';
+            return titulo.toLowerCase().includes('número de identificación');
+          });
+
+          const identificacion =
+            bloqueIdentificacion?.querySelector('span')?.innerText.trim() || '';
+
+          return JSON.stringify({
+            tipo: 'PERFIL',
+            cedula: identificacion
+          });
+        }
 
         // TARJETA VIRTUAL
         if (tarjeta) {
@@ -730,6 +772,35 @@ Future<void> _procesarPagina() async {
       'TIPO DETECTADO: $tipo',
     );
 
+
+    // =======================================================
+    // PERFIL: CÉDULA DEL USUARIO ACTUAL
+    // =======================================================
+
+    if (tipo == 'PERFIL') {
+      final identificacion =
+          datos['cedula']?.toString().trim() ?? '';
+
+      if (identificacion.isNotEmpty) {
+        if (mounted) {
+          setState(() {
+            cedula = identificacion;
+          });
+        }
+        debugPrint('PERFIL: IDENTIFICACIÓN DEL USUARIO EXTRAÍDA');
+      } else {
+        if (mounted) {
+          setState(() {
+            cedula = 'No disponible';
+          });
+        }
+        debugPrint('PERFIL: NO SE ENCONTRÓ NÚMERO DE IDENTIFICACIÓN');
+      }
+
+      _perfilCargado = true;
+      await _volverAlDashboard();
+      return;
+    }
 
     // =======================================================
     // RECARGAS
@@ -1032,6 +1103,11 @@ if (tipo == 'DASHBOARD') {
     if (!_tarjetaVirtualCargada) {
   await _cargarCodigoBarras();
 }
+
+    if (_tarjetaVirtualCargada && !_perfilCargado) {
+      await _cargarPerfil();
+      return;
+    }
 
     debugPrint(
       'AUTENTICACIÓN: ACCESO AUTORIZADO',
@@ -2306,25 +2382,6 @@ Future<void> _mostrarDashboard() async {
 
 
 
-  String _cedulaOculta(String valor) {
-  final partes = valor.split('-');
-
-  if (partes.length != 2) {
-    return valor;
-  }
-
-  final prefijo = partes[0];
-  final numero = partes[1];
-
-  if (numero.length <= 2) {
-    return valor;
-  }
-
-  final asteriscos = '*' * (numero.length - 2);
-
-  return '$prefijo-${numero[0]}$asteriscos${numero[numero.length - 1]}';
-}
-
   // ==========================================================
   // TARJETA
   // ==========================================================
@@ -2560,7 +2617,7 @@ Positioned(
           left: 35,
           bottom: 12,
           child: Text(
-            _cedulaOculta(cedula),
+            cedula,
             style: const TextStyle(
               color: Colors.white,
               fontSize: 19,
