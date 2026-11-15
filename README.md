@@ -1,16 +1,27 @@
-# saldo_app
+﻿# Saldo App
 
-A new Flutter project.
+Página oficial y aplicación móvil de Saldo App.
 
-## Getting Started
+## Sitio oficial
 
-This project is a starting point for a Flutter application.
+- Inicio: https://jhoswantrader.github.io/saldo-app/
+- Privacidad: https://jhoswantrader.github.io/saldo-app/privacy.html
+- Términos: https://jhoswantrader.github.io/saldo-app/terms.html
 
-A few resources to get you started if this is your first Flutter project:
+## Aplicación móvil
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+Aplicación desarrollada con Flutter para acceder a los servicios de Super900.
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+## Desarrollo
+
+Instalar dependencias:
+
+    flutter pub get
+
+Ejecutar:
+
+    flutter run
+
+## Créditos
+
+Icono: ALga_design - Flaticon.
